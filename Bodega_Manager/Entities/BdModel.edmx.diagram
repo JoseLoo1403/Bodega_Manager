@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="fc3522b2ffc248b59710a72846f6484d" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="Bodega_RepuestosModel.Maquina" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Bodega_RepuestosModel.Mecanico" Width="1.5" PointX="3.375" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Bodega_RepuestosModel.Factura_Detail" Width="1.5" PointX="0.875" PointY="3.25" />
+        <EntityTypeShape EntityType="Bodega_RepuestosModel.Factura_Header" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Bodega_RepuestosModel.Repuesto_Data" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="Bodega_RepuestosModel.Repuesto" Width="1.5" PointX="7.75" PointY="2.875" />
+        <AssociationConnector Association="Bodega_RepuestosModel.FK_Factura_Detail_Factura_Header" />
+        <AssociationConnector Association="Bodega_RepuestosModel.FK_Repuesto_Data_Repuestos" />
+        <AssociationConnector Association="Bodega_RepuestosModel.FK_Factura_Detail_Repuestos1" />
+        <AssociationConnector Association="Bodega_RepuestosModel.FK_Factura_Header_Mecanico1" />
+        <AssociationConnector Association="Bodega_RepuestosModel.FK_Factura_Detail_Maquina1" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

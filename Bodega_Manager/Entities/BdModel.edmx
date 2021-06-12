@@ -1,0 +1,394 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Bodega_RepuestosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Factura_Detail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Factura_Header" Type="int" />
+          <Property Name="Codigo_Repuesto" Type="int" />
+          <Property Name="Cantidad" Type="int" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Tag_Maquina" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Factura_Header">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo_Mecanico" Type="int" />
+          <Property Name="Costo_Total" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Cantidad_Repuestos" Type="int" />
+          <Property Name="Fecha" Type="date" />
+        </EntityType>
+        <EntityType Name="Maquina">
+          <Key>
+            <PropertyRef Name="Tag" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tag" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Mecanico">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Repuesto_Data">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo_Repuesto" Type="int" />
+          <Property Name="Min" Type="int" />
+          <Property Name="Max" Type="int" />
+          <Property Name="Promedio" Type="int" />
+        </EntityType>
+        <EntityType Name="Repuestos">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo" Type="int" Nullable="false" />
+          <Property Name="Codigo_Lawson" Type="varchar" MaxLength="50" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="150" />
+          <Property Name="Cantidad_Stock" Type="int" />
+          <Property Name="Precio" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Localidad" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Factura_Detail_Factura_Header">
+          <End Role="Factura_Header" Type="Self.Factura_Header" Multiplicity="0..1" />
+          <End Role="Factura_Detail" Type="Self.Factura_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Factura_Header">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Factura_Detail">
+              <PropertyRef Name="Id_Factura_Header" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Factura_Detail_Maquina1">
+          <End Role="Maquina" Type="Self.Maquina" Multiplicity="0..1" />
+          <End Role="Factura_Detail" Type="Self.Factura_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maquina">
+              <PropertyRef Name="Tag" />
+            </Principal>
+            <Dependent Role="Factura_Detail">
+              <PropertyRef Name="Tag_Maquina" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Factura_Detail_Repuestos1">
+          <End Role="Repuestos" Type="Self.Repuestos" Multiplicity="0..1" />
+          <End Role="Factura_Detail" Type="Self.Factura_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Repuestos">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Factura_Detail">
+              <PropertyRef Name="Codigo_Repuesto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Factura_Header_Mecanico">
+          <End Role="Mecanico" Type="Self.Mecanico" Multiplicity="0..1" />
+          <End Role="Factura_Header" Type="Self.Factura_Header" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mecanico">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Factura_Header">
+              <PropertyRef Name="Codigo_Mecanico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Bodega_RepuestosModelStoreContainer">
+          <EntitySet Name="Factura_Detail" EntityType="Self.Factura_Detail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Factura_Header" EntityType="Self.Factura_Header" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Maquina" EntityType="Self.Maquina" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mecanico" EntityType="Self.Mecanico" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Repuesto_Data" EntityType="Self.Repuesto_Data" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Repuestos" EntityType="Self.Repuestos" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Factura_Detail_Factura_Header" Association="Self.FK_Factura_Detail_Factura_Header">
+            <End Role="Factura_Header" EntitySet="Factura_Header" />
+            <End Role="Factura_Detail" EntitySet="Factura_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factura_Detail_Maquina1" Association="Self.FK_Factura_Detail_Maquina1">
+            <End Role="Maquina" EntitySet="Maquina" />
+            <End Role="Factura_Detail" EntitySet="Factura_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factura_Detail_Repuestos1" Association="Self.FK_Factura_Detail_Repuestos1">
+            <End Role="Repuestos" EntitySet="Repuestos" />
+            <End Role="Factura_Detail" EntitySet="Factura_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factura_Header_Mecanico" Association="Self.FK_Factura_Header_Mecanico">
+            <End Role="Mecanico" EntitySet="Mecanico" />
+            <End Role="Factura_Header" EntitySet="Factura_Header" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Bodega_RepuestosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Maquina">
+          <Key>
+            <PropertyRef Name="Tag" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tag" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Factura_Detail1" Relationship="Bodega_RepuestosModel.FK_Factura_Detail_Maquina1" FromRole="Maquina" ToRole="Factura_Detail" />
+        </EntityType>
+        <EntityType Name="Mecanico">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Codigo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Factura_Header1" Relationship="Bodega_RepuestosModel.FK_Factura_Header_Mecanico1" FromRole="Mecanico" ToRole="Factura_Header" />
+        </EntityType>
+        <EntityContainer Name="Bodega_RepuestosEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Maquinas" EntityType="Self.Maquina" />
+          <EntitySet Name="Mecanicoes" EntityType="Self.Mecanico" />
+          <EntitySet Name="Factura_Detail" EntityType="Bodega_RepuestosModel.Factura_Detail" />
+          <EntitySet Name="Factura_Header" EntityType="Bodega_RepuestosModel.Factura_Header" />
+          <EntitySet Name="Repuesto_Data" EntityType="Bodega_RepuestosModel.Repuesto_Data" />
+          <EntitySet Name="Repuestos" EntityType="Bodega_RepuestosModel.Repuesto" />
+          <AssociationSet Name="FK_Factura_Detail_Factura_Header" Association="Bodega_RepuestosModel.FK_Factura_Detail_Factura_Header">
+            <End Role="Factura_Header" EntitySet="Factura_Header" />
+            <End Role="Factura_Detail" EntitySet="Factura_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Repuesto_Data_Repuestos" Association="Bodega_RepuestosModel.FK_Repuesto_Data_Repuestos">
+            <End Role="Repuesto" EntitySet="Repuestos" />
+            <End Role="Repuesto_Data" EntitySet="Repuesto_Data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factura_Detail_Repuestos1" Association="Bodega_RepuestosModel.FK_Factura_Detail_Repuestos1">
+            <End Role="Repuesto" EntitySet="Repuestos" />
+            <End Role="Factura_Detail" EntitySet="Factura_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factura_Header_Mecanico1" Association="Bodega_RepuestosModel.FK_Factura_Header_Mecanico1">
+            <End Role="Mecanico" EntitySet="Mecanicoes" />
+            <End Role="Factura_Header" EntitySet="Factura_Header" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factura_Detail_Maquina1" Association="Bodega_RepuestosModel.FK_Factura_Detail_Maquina1">
+            <End Role="Maquina" EntitySet="Maquinas" />
+            <End Role="Factura_Detail" EntitySet="Factura_Detail" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Factura_Detail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Factura_Header" Type="Int32" />
+          <Property Name="Codigo_Repuesto" Type="Int32" />
+          <Property Name="Total" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Tag_Maquina" Type="String" />
+          <NavigationProperty Name="Factura_Header" Relationship="Bodega_RepuestosModel.FK_Factura_Detail_Factura_Header" FromRole="Factura_Detail" ToRole="Factura_Header" />
+          <Property Name="Cantidad" Type="Int32" />
+          <NavigationProperty Name="Repuesto1" Relationship="Bodega_RepuestosModel.FK_Factura_Detail_Repuestos1" FromRole="Factura_Detail" ToRole="Repuesto" />
+          <NavigationProperty Name="Maquina1" Relationship="Bodega_RepuestosModel.FK_Factura_Detail_Maquina1" FromRole="Factura_Detail" ToRole="Maquina" />
+        </EntityType>
+        <EntityType Name="Factura_Header">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo_Mecanico" Type="Int32" />
+          <Property Name="Costo_Total" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Cantidad_Repuestos" Type="Int32" />
+          <Property Name="Fecha" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Factura_Detail" Relationship="Bodega_RepuestosModel.FK_Factura_Detail_Factura_Header" FromRole="Factura_Header" ToRole="Factura_Detail" />
+          <NavigationProperty Name="Mecanico1" Relationship="Bodega_RepuestosModel.FK_Factura_Header_Mecanico1" FromRole="Factura_Header" ToRole="Mecanico" />
+        </EntityType>
+        <EntityType Name="Repuesto_Data">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo_Repuesto" Type="Int32" />
+          <Property Name="Min" Type="Int32" />
+          <Property Name="Max" Type="Int32" />
+          <Property Name="Promedio" Type="Int32" />
+          <NavigationProperty Name="Repuesto" Relationship="Bodega_RepuestosModel.FK_Repuesto_Data_Repuestos" FromRole="Repuesto_Data" ToRole="Repuesto" />
+        </EntityType>
+        <EntityType Name="Repuesto">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="Int32" Nullable="false" />
+          <Property Name="Codigo_Lawson" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Cantidad_Stock" Type="Int32" />
+          <Property Name="Precio" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Localidad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Repuesto_Data" Relationship="Bodega_RepuestosModel.FK_Repuesto_Data_Repuestos" FromRole="Repuesto" ToRole="Repuesto_Data" />
+          <NavigationProperty Name="Factura_Detail1" Relationship="Bodega_RepuestosModel.FK_Factura_Detail_Repuestos1" FromRole="Repuesto" ToRole="Factura_Detail" />
+        </EntityType>
+        <Association Name="FK_Factura_Detail_Factura_Header">
+          <End Type="Bodega_RepuestosModel.Factura_Header" Role="Factura_Header" Multiplicity="0..1" />
+          <End Type="Bodega_RepuestosModel.Factura_Detail" Role="Factura_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Factura_Header">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Factura_Detail">
+              <PropertyRef Name="Id_Factura_Header" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Repuesto_Data_Repuestos">
+          <End Type="Bodega_RepuestosModel.Repuesto" Role="Repuesto" Multiplicity="0..1" />
+          <End Type="Bodega_RepuestosModel.Repuesto_Data" Role="Repuesto_Data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Repuesto">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Repuesto_Data">
+              <PropertyRef Name="Codigo_Repuesto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Factura_Detail_Repuestos1">
+          <End Type="Bodega_RepuestosModel.Repuesto" Role="Repuesto" Multiplicity="0..1" />
+          <End Type="Bodega_RepuestosModel.Factura_Detail" Role="Factura_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Repuesto">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Factura_Detail">
+              <PropertyRef Name="Codigo_Repuesto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Factura_Header_Mecanico1">
+          <End Type="Bodega_RepuestosModel.Mecanico" Role="Mecanico" Multiplicity="0..1" />
+          <End Type="Bodega_RepuestosModel.Factura_Header" Role="Factura_Header" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mecanico">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Factura_Header">
+              <PropertyRef Name="Codigo_Mecanico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Factura_Detail_Maquina1">
+          <End Type="Bodega_RepuestosModel.Maquina" Role="Maquina" Multiplicity="0..1" />
+          <End Type="Bodega_RepuestosModel.Factura_Detail" Role="Factura_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maquina">
+              <PropertyRef Name="Tag" />
+            </Principal>
+            <Dependent Role="Factura_Detail">
+              <PropertyRef Name="Tag_Maquina" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Bodega_RepuestosModelStoreContainer" CdmEntityContainer="Bodega_RepuestosEntities1">
+          <EntitySetMapping Name="Maquinas">
+            <EntityTypeMapping TypeName="Bodega_RepuestosModel.Maquina">
+              <MappingFragment StoreEntitySet="Maquina">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mecanicoes">
+            <EntityTypeMapping TypeName="Bodega_RepuestosModel.Mecanico">
+              <MappingFragment StoreEntitySet="Mecanico">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Factura_Detail">
+            <EntityTypeMapping TypeName="Bodega_RepuestosModel.Factura_Detail">
+              <MappingFragment StoreEntitySet="Factura_Detail">
+                <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
+                <ScalarProperty Name="Id_Factura_Header" ColumnName="Id_Factura_Header" />
+                <ScalarProperty Name="Tag_Maquina" ColumnName="Tag_Maquina" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Codigo_Repuesto" ColumnName="Codigo_Repuesto" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Factura_Header">
+            <EntityTypeMapping TypeName="Bodega_RepuestosModel.Factura_Header">
+              <MappingFragment StoreEntitySet="Factura_Header">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Cantidad_Repuestos" ColumnName="Cantidad_Repuestos" />
+                <ScalarProperty Name="Costo_Total" ColumnName="Costo_Total" />
+                <ScalarProperty Name="Codigo_Mecanico" ColumnName="Codigo_Mecanico" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Repuesto_Data">
+            <EntityTypeMapping TypeName="Bodega_RepuestosModel.Repuesto_Data">
+              <MappingFragment StoreEntitySet="Repuesto_Data">
+                <ScalarProperty Name="Promedio" ColumnName="Promedio" />
+                <ScalarProperty Name="Max" ColumnName="Max" />
+                <ScalarProperty Name="Min" ColumnName="Min" />
+                <ScalarProperty Name="Codigo_Repuesto" ColumnName="Codigo_Repuesto" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Repuestos">
+            <EntityTypeMapping TypeName="Bodega_RepuestosModel.Repuesto">
+              <MappingFragment StoreEntitySet="Repuestos">
+                <ScalarProperty Name="Localidad" ColumnName="Localidad" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="Cantidad_Stock" ColumnName="Cantidad_Stock" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Codigo_Lawson" ColumnName="Codigo_Lawson" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
